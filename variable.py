@@ -20,6 +20,15 @@ class StringVariable(str):
 class Variable:
     """TcEx Utilities Variables Class"""
 
+    def contains_playbook_variable(self, key: str) -> bool:
+        """Return True if provided key contains a properly formatted playbook variable."""
+        if not isinstance(key, str):
+            return False
+
+        if re.search(self.variable_playbook_pattern, key):
+            return True
+        return False
+
     def get_playbook_variable_model(self, variable: str | None) -> PlaybookVariableModel | None:
         """Return data model of playbook variable (e.g., #App:1234:output!String)."""
         if variable is None:
