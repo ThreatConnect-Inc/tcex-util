@@ -1,89 +1,17 @@
-"""TcEx Utilities"""
+"""TcEx Framework Module"""
 # standard library
-import ast
 import ipaddress
 import re
-from re import Pattern
 from typing import Any
-
-# third-party
-import astunparse
 
 from .aes_operation import AesOperation
 from .datetime_operation import DatetimeOperation
 from .string_operation import StringOperation
 from .variable import Variable
 
-# import jmespath
-
 
 class Util(AesOperation, DatetimeOperation, StringOperation, Variable):
     """TcEx Utilities Class"""
-
-    @staticmethod
-    def find_line_in_code(
-        needle: str | Pattern,
-        code: str,
-        trigger_start: Pattern | str | None = None,
-        trigger_stop: Pattern | str | None = None,
-    ) -> str | None:
-        """Return matching line of code in a class definition.
-
-        Args:
-            needle: The string to search for.
-            code: The contents of the Python file to search.
-            trigger_start: The regex pattern to use to trigger the search.
-            trigger_stop: The regex pattern to use to stop the search.
-        """
-        magnet_on = not trigger_start
-        for line in astunparse.unparse(ast.parse(code)).split('\n'):
-            if line.lstrip()[:1] not in ("'", '"'):
-                # Find class before looking for needle
-                if trigger_start is not None and re.match(trigger_start, line):
-                    magnet_on = True
-                    continue
-
-                # find need now that class definition is found
-                if magnet_on is True and re.match(needle, line):
-                    line = line.strip()
-                    return line
-
-                # break if needle not found before next class definition
-                if trigger_stop is not None and re.match(trigger_stop, line) and magnet_on is True:
-                    break
-        return None
-
-    @staticmethod
-    def find_line_number(
-        needle: str,
-        contents: str,
-        trigger_start: Pattern | str | None = None,
-        trigger_stop: Pattern | str | None = None,
-    ) -> int | None:
-        """Return matching line of code in a class definition.
-
-        Args:
-            needle: The string to search for.
-            contents: The contents (haystack) to search
-            trigger_start: The regex pattern to use to trigger the search.
-            trigger_stop: The regex pattern to use to stop the search.
-        """
-        magnet_on = not trigger_start
-        for line_number, line in enumerate(contents.split('\n'), start=1):
-            if line.strip():
-                # set magnet_on to True if trigger_start is found
-                if trigger_start is not None and re.match(trigger_start, line):
-                    magnet_on = True
-                    continue
-
-                # find needle now that trigger is found
-                if magnet_on is True and re.match(needle, line):
-                    return line_number
-
-                # break if trigger_stop is defined and found
-                if trigger_stop is not None and re.match(trigger_stop, line) and magnet_on is True:
-                    break
-        return None
 
     @staticmethod
     def flatten_list(lst: list[Any]) -> list[Any]:

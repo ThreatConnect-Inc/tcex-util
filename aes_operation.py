@@ -1,4 +1,4 @@
-"""TcEx Utilities AES Operations Module"""
+"""TcEx Framework Module"""
 # standard library
 from typing import cast
 

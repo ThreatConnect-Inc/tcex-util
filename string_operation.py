@@ -1,4 +1,4 @@
-"""TcEx Utilities String Operations Module"""
+"""TcEx Framework Module"""
 # standard library
 import random
 import re
@@ -89,7 +89,7 @@ class StringOperation:
         if len(append_chars) > length:  # pragma: no cover
             raise RuntimeError('Append chars cannot exceed the truncation length.')
 
-        output = string[0 : length - len(append_chars)]  # noqa: E203
+        output = string[0 : length - len(append_chars)]
         if spaces is True:
             if not output.endswith(' '):
                 # split output on spaces and drop last item to terminate string on word

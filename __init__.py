@@ -1,2 +1,2 @@
-"""Utils module for TcEx Framework"""
+"""TcEx Framework Module"""
 from .util import Util

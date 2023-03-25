@@ -1,4 +1,4 @@
-"""TcEx Utilities File Operations Module"""
+"""TcEx Framework Module"""
 # standard library
 import gzip
 import json

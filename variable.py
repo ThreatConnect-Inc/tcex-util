@@ -1,4 +1,4 @@
-"""TcEx Utilities Variables Module"""
+"""TcEx Framework Module"""
 # standard library
 import re
 

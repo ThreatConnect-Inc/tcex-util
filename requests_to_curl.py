@@ -1,4 +1,4 @@
-"""TcEx Utilities Request to Curl Module"""
+"""TcEx Framework Module"""
 # standard library
 import re
 from urllib.parse import urlsplit

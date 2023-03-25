@@ -1,4 +1,4 @@
-"""TcEx Utilities Datetime Operations Module"""
+"""TcEx Framework Module"""
 # standard library
 from collections.abc import Generator
 from datetime import datetime
