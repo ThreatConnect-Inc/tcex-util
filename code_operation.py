@@ -3,13 +3,14 @@
 import ast
 import os
 import re
-import sys
 
 # third-party
 import astunparse
 import black
 import isort
 from black.report import NothingChanged
+
+from .render.render import Render
 
 
 class CodeOperation:
@@ -88,8 +89,7 @@ class CodeOperation:
         try:
             _code = black.format_file_contents(_code, fast=False, mode=mode)
         except ValueError as ex:
-            print(f'Formatting of code failed {ex}.')
-            sys.exit(1)
+            Render.panel.failure(f'Formatting of code with black failed {ex}.')
         except NothingChanged:
             pass
 
@@ -99,7 +99,6 @@ class CodeOperation:
             isort_config = isort.Config(**isort_args)
             _code = isort.code(_code, config=isort_config)
         except Exception as ex:
-            print(f'Formatting of code failed {ex}.')
-            sys.exit(1)
+            Render.panel.failure(f'Formatting of code with isort failed {ex}.')
 
         return _code
