@@ -20,8 +20,8 @@ class RenderTable:
     def key_value(
         cls,
         title: str,
-        kv_data: dict[str, str] | list[dict[str, str]],
-        border_style: str = 'dim',
+        kv_data: dict[str, str | None] | list[dict[str, str | None]],
+        border_style: str = '',
         key_style: str = 'dodger_blue1',
         key_width: int = 20,
         value_style: str = 'bold',

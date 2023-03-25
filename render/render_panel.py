@@ -93,7 +93,7 @@ class RenderPanel:
         sys.exit(1)
 
     @staticmethod
-    def info(message: str, title: str, title_align: AlignMethod = 'left'):
+    def info(message: str, title: str = 'Info', title_align: AlignMethod = 'left'):
         """Render info panel."""
         print(
             Panel(
@@ -118,6 +118,24 @@ class RenderPanel:
                 title_align=title_align,
             )
         )
+
+    @classmethod
+    def list(cls, title: str, items: list[str], style: str = ''):
+        """Render list panel."""
+        items = [f'[white]•[/white] {i}' for i in items]
+        item_list = '\n'.join(items)
+
+        # render error panel
+        if item_list:
+            print(
+                Panel(
+                    item_list,
+                    border_style='',
+                    style=style,
+                    title=title,
+                    title_align=cls.title_align,
+                )
+            )
 
     @staticmethod
     def rule(title: str, align: AlignMethod = 'center', style: str = ''):

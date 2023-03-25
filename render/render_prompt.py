@@ -35,7 +35,7 @@ class RenderPrompt:
         )
 
     @classmethod
-    def input(cls, prompt_text: str, prompt_default: str, subtitle: str) -> str:
+    def input(cls, prompt_text: str, prompt_default: str, subtitle: str = '') -> str:
         """Render a prompt"""
         prompt_text = f'[white]{prompt_text}[/white][bold white]{prompt_default}[/bold white]'
         print(Panel(prompt_text, title='Input', title_align=cls.title_align, subtitle=subtitle))
