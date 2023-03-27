@@ -1,6 +1,7 @@
 """TcEx Framework Module"""
 # standard library
 import ast
+import logging
 import os
 import re
 
@@ -11,6 +12,9 @@ import isort
 from black.report import NothingChanged
 
 from .render.render import Render
+
+# get logger
+_logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
 
 
 class CodeOperation:
@@ -89,6 +93,7 @@ class CodeOperation:
         try:
             _code = black.format_file_contents(_code, fast=False, mode=mode)
         except ValueError as ex:
+            _logger.exception('Formatting of code with black failed.')
             Render.panel.failure(f'Formatting of code with black failed {ex}.')
         except NothingChanged:
             pass
@@ -101,6 +106,8 @@ class CodeOperation:
             isort_config = isort.Config(**isort_args)
             _code = isort.code(_code, config=isort_config)
         except Exception as ex:
+            _logger.exception('Formatting of code with isort failed.')
+            # _logger.debug(_code)
             Render.panel.failure(f'Formatting of code with isort failed {ex}.')
 
         return _code
