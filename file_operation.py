@@ -69,7 +69,7 @@ class FileOperation:
         if mode == 'wb':
             encoding = None
 
-        content = json.dumps(content) if isinstance(content, (dict, list)) else content
+        content = json.dumps(content) if isinstance(content, dict | list) else content
         fqfn = fqfn if isinstance(fqfn, Path) else Path(fqfn)
 
         # ensure output directory exists

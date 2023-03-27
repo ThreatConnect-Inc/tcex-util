@@ -58,7 +58,7 @@ class RequestsToCurl:
     ) -> list[str]:
         """Process headers and return a list of curl commands."""
         _headers = []
-        for k, v in sorted(list(dict(headers).items())):
+        for k, v in sorted(dict(headers).items()):
             if mask_headers is True:
                 patterns = [
                     'authorization',
@@ -126,6 +126,14 @@ class RequestsToCurl:
             request: The response.request object.
             mask_headers: If True then values for certain header key will be masked.
             mask_patterns: A list of patterns if found in headers the value will be masked.
+            **kwargs: Additional keyword arguments to pass to the CurlModel.
+
+        Keyword Args:
+            body_limit: The size limit for the body value.
+            mask_body: If True the body will be masked.
+            proxies: A dict containing the proxy configuration.
+            verify: If False the curl command will include --insecure flag.
+            write_file: If True and the body is binary it will be written as a temp file.
         """
         # build curl model from kwargs
         curl_model = CurlModel(**kwargs)
