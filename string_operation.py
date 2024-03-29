@@ -2,7 +2,6 @@
 
 # standard library
 import random
-import re
 from functools import cached_property, reduce
 from string import ascii_letters
 
@@ -27,12 +26,12 @@ class StringOperation:
         return inflection.underscore(string).replace('_', ' ')
 
     @cached_property
-    def inflect(self) -> 'inflection':
+    def inflect(self):
         """Return instance of inflect."""
         return inflection
 
     @cached_property
-    def inflection(self) -> 'inflection':
+    def inflection(self):
         """Return instance of inflect."""
         return inflection
 
