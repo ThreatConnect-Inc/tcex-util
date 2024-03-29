@@ -27,12 +27,12 @@ class StringOperation:
         return inflection.underscore(string).replace('_', ' ')
 
     @cached_property
-    def inflect(self) -> inflection:
+    def inflect(self) -> 'inflection':
         """Return instance of inflect."""
         return inflection
 
     @cached_property
-    def inflection(self) -> inflection:
+    def inflection(self) -> 'inflection':
         """Return instance of inflect."""
         return inflection
 
