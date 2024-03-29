@@ -1,4 +1,5 @@
 """TcEx Framework Module"""
+
 # standard library
 import random
 import re
@@ -6,7 +7,7 @@ from functools import cached_property, reduce
 from string import ascii_letters
 
 # third-party
-import inflect
+import inflection
 
 
 class StringOperation:
@@ -19,16 +20,21 @@ class StringOperation:
 
     def camel_to_snake(self, string: str) -> str:
         """Return snake_case string from a camelCase string."""
-        return self._camel_pattern.sub('_', string).lower()
+        return inflection.underscore(string)
 
     def camel_to_space(self, string: str) -> str:
         """Return space case string from a camelCase string."""
-        return self._camel_pattern.sub(' ', string).lower()
+        return inflection.underscore(string).replace('_', ' ')
 
     @cached_property
-    def inflect(self) -> inflect.engine:
+    def inflect(self) -> inflection:
         """Return instance of inflect."""
-        return inflect.engine()
+        return inflection
+
+    @cached_property
+    def inflection(self) -> inflection:
+        """Return instance of inflect."""
+        return inflection
 
     @staticmethod
     def random_string(string_length: int = 10) -> str:
@@ -43,13 +49,12 @@ class StringOperation:
     @staticmethod
     def snake_to_pascal(string: str) -> str:
         """Convert snake_case to PascalCase."""
-        return string.replace('_', ' ').title().replace(' ', '')
+        return inflection.camelize(string, uppercase_first_letter=True)
 
     @staticmethod
     def snake_to_camel(string: str) -> str:
         """Convert snake_case to camelCase."""
-        components = string.split('_')
-        return components[0] + ''.join(x.title() for x in components[1:])
+        return inflection.camelize(string, uppercase_first_letter=False)
 
     @staticmethod
     def to_bool(value: bool | int | str) -> bool:
@@ -96,11 +101,6 @@ class StringOperation:
                 output = ' '.join(output.split(' ')[:-1])
 
         return f'{output.rstrip()}{append_chars}'
-
-    @property
-    def _camel_pattern(self) -> re.Pattern:
-        """Return compiled re pattern for converting to camelCase."""
-        return re.compile(r'(?<!^)(?=[A-Z])')
 
     @staticmethod
     def wrap_string(
@@ -163,11 +163,11 @@ class CamelString(str):
 
     def plural(self):
         """Return the plural spelling of a camelCase string."""
-        return CamelString(self.so.inflect.plural(self.singular()))
+        return CamelString(self.so.inflection.pluralize(self.singular()))
 
     def singular(self):
         """Return the singular spelling of a camelCase string."""
-        _singular = self.so.inflect.singular_noun(self)
+        _singular = self.so.inflection.singularize(self)
 
         if not _singular:
             _singular = self
@@ -198,11 +198,11 @@ class SnakeString(str):
 
     def plural(self):
         """Return the plural spelling of a snake_case string."""
-        return SnakeString(self.so.inflect.plural(self.singular()))
+        return SnakeString(self.so.inflection.pluralize(self.singular()))
 
     def singular(self):
         """Return the singular spelling of a snake_case string."""
-        _singular = self.so.inflect.singular_noun(self)
+        _singular = self.so.inflection.singularize(self)
 
         if not _singular:
             _singular = self
