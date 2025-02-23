@@ -5,7 +5,7 @@ import re
 from urllib.parse import urlsplit
 
 # third-party
-from pydantic import BaseModel, Field
+from pydantic.v1 import BaseModel, Field
 from requests import PreparedRequest  # TYPE-CHECKING
 
 from .util import Util
