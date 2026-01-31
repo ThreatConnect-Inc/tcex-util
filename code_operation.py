@@ -3,7 +3,6 @@
 import ast
 import logging
 import re
-from pathlib import Path
 
 import black
 import isort
@@ -97,10 +96,18 @@ class CodeOperation:
 
         # run isort on code
         try:
-            isort_args = (
-                {'settings_file': 'pyproject.toml'} if Path('pyproject.toml').is_file() else {}
+            isort_config = isort.Config(
+                dedup_headings=False,
+                import_heading_firstparty='first-party',
+                import_heading_stdlib='standard library',
+                import_heading_thirdparty='third-party',
+                include_trailing_comma=True,
+                known_first_party=[],
+                known_local_folder=['.'],
+                known_third_party=[],
+                line_length=100,
+                profile='black',
             )
-            isort_config = isort.Config(**isort_args)  # type: ignore
             _code = isort.code(_code, config=isort_config)
         except Exception as ex:
             _logger.exception('Formatting of code with isort failed.')
