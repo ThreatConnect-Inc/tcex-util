@@ -97,14 +97,11 @@ class CodeOperation:
         # run isort on code
         try:
             isort_config = isort.Config(
-                dedup_headings=False,
                 import_heading_firstparty='first-party',
                 import_heading_stdlib='standard library',
                 import_heading_thirdparty='third-party',
-                include_trailing_comma=True,
-                known_first_party=[],
                 known_local_folder=['.'],
-                known_third_party=[],
+                known_third_party=['tcex'],
                 line_length=100,
                 profile='black',
             )
