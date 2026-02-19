@@ -8,10 +8,15 @@ import black
 import isort
 from black.report import NothingChanged
 
+from tcex.__metadata__ import __version__
+
 from .render.render import Render
 
 # get logger
 _logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
+
+
+_TCEX_V4_MAJOR = 4
 
 
 class CodeOperation:
@@ -96,15 +101,19 @@ class CodeOperation:
 
         # run isort on code
         try:
-            isort_config = isort.Config(
-                import_heading_firstparty='first-party',
-                import_heading_stdlib='standard library',
-                import_heading_thirdparty='third-party',
-                known_local_folder=['.'],
-                known_third_party=['tcex'],
-                line_length=100,
-                profile='black',
-            )
+            major_version = int(__version__.split('.')[0])
+            isort_kwargs = {
+                'known_local_folder': ['.'],
+                'known_third_party': ['tcex'],
+                'line_length': 100,
+                'profile': 'black',
+            }
+            if major_version == _TCEX_V4_MAJOR:
+                isort_kwargs['import_heading_firstparty'] = 'first-party'
+                isort_kwargs['import_heading_stdlib'] = 'standard library'
+                isort_kwargs['import_heading_thirdparty'] = 'third-party'
+
+            isort_config = isort.Config(**isort_kwargs)
             _code = isort.code(_code, config=isort_config)
         except Exception as ex:
             _logger.exception('Formatting of code with isort failed.')
