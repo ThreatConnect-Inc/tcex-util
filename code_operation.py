@@ -1,6 +1,7 @@
 """TcEx Framework Module"""
 
 import ast
+import importlib
 import logging
 import re
 
@@ -8,7 +9,9 @@ import black
 import isort
 from black.report import NothingChanged
 
-from tcex.__metadata__ import __version__
+# support both tcex, and tcex_cli imports for versioning
+_metadata = importlib.import_module(f'{__name__.split(".", maxsplit=1)[0]}.__metadata__')
+__version__ = _metadata.__version__
 
 from .render.render import Render
 
