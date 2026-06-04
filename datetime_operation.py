@@ -2,6 +2,7 @@
 
 from collections.abc import Generator
 from datetime import datetime
+from typing import Any
 
 import arrow as _arrow
 from arrow import Arrow
@@ -85,7 +86,7 @@ class DatetimeOperation:
         """
         start_date = self.any_to_datetime(start_date)
         end_date = self.any_to_datetime(end_date)
-        interval_args = {
+        interval_args: dict[str, Any] = {
             'frame': chunk_unit,
             'start': start_date,
             'end': end_date,

@@ -1,6 +1,7 @@
 """TcEx Framework Module"""
 
 import re
+from typing import cast
 from urllib.parse import urlsplit
 
 from pydantic import BaseModel, Field
@@ -139,13 +140,13 @@ class RequestsToCurl:
         curl_model = CurlModel(**kwargs)
 
         # APP-79 - adding the ability to log request as curl commands
-        cmd = ['curl', '-X', request.method]
+        cmd = ['curl', '-X', request.method or '']
 
         # add headers to curl command
         cmd.extend(self._process_headers(dict(request.headers), mask_headers, mask_patterns))
 
         # add body to the curl command
-        cmd.extend(self._process_body(request.body, curl_model))
+        cmd.extend(self._process_body(cast('bytes | str | None', request.body), curl_model))
 
         # add proxies to curl command
         cmd.extend(self._process_proxies(curl_model.proxies))
@@ -155,6 +156,6 @@ class RequestsToCurl:
             cmd.append('--insecure')
 
         # add url to curl command
-        cmd.append(request.url)
+        cmd.append(request.url or '')
 
         return ' '.join(cmd)

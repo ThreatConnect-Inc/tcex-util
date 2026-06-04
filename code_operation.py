@@ -4,6 +4,7 @@ import ast
 import importlib
 import logging
 import re
+from typing import Any
 
 import black
 import isort
@@ -105,7 +106,7 @@ class CodeOperation:
         # run isort on code
         try:
             major_version = int(__version__.split('.')[0])
-            isort_kwargs = {
+            isort_kwargs: dict[str, Any] = {
                 'known_local_folder': ['.'],
                 'known_third_party': ['tcex'],
                 'line_length': 100,
