@@ -143,7 +143,8 @@ class RequestsToCurl:
         cmd = ['curl', '-X', request.method or '']
 
         # add headers to curl command
-        cmd.extend(self._process_headers(dict(request.headers), mask_headers, mask_patterns))
+        headers = dict(request.headers.items()) if request.headers else {}
+        cmd.extend(self._process_headers(headers, mask_headers, mask_patterns))
 
         # add body to the curl command
         cmd.extend(self._process_body(cast('bytes | str | None', request.body), curl_model))
