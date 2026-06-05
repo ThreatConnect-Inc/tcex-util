@@ -1,5 +1,0 @@
-# Custom Dictionary Words
-ciphertext
-Decrypter
-Encrypter
-pyaes
